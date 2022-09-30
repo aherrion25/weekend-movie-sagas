@@ -35,7 +35,7 @@ We've given you the database complete with a junction table and data for `movies
 We've added some movie posters in the `public/images` folder, and the database is set up to use them. If you want your own posters, you'll want to add the files there!
 
 ---
-
+![](http://localhost:3000/images/avatar.jpeg)
 ## Feature List
 
 > NOTE: Start by taking inventory of the existing code. Part of the work for setting up sagas has been done for you.
