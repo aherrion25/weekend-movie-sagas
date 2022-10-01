@@ -15,6 +15,7 @@ function MovieList() {
 
     const detail = (movie) =>{
         dispatch ({ type: 'SELECT_MOVIE', payload: movie});
+        dispatch ({ type: 'FETCH_GENRES', payload: movie.id})
         history.push('/details')
     }
 

@@ -15,6 +15,7 @@ import axios from 'axios';
 function* rootSaga() {
     yield takeEvery('FETCH_MOVIES', fetchAllMovies);
     yield takeEvery('FETCH_DETAILS', fetchDetails);
+    yield takeEvery('FETCH_GENRES', fetchGenre);
 }
 
 function* fetchAllMovies() {
@@ -37,6 +38,17 @@ function* fetchDetails() {
         yield put({ type: 'SET_GENRES', payload: details.data});
     } catch (error) {
         console.log('ERROR fetching details', error);
+        alert('STOP! SOMETHING WENT WRONG!')
+    }
+}
+
+function* fetchGenre(action) {
+    // get genres from DB
+    try{
+        const genres = yield axios.get(`/api/genre/${action.payload}`)
+        yield put({ type: 'SET_GENRES', payload: genres.data})
+    } catch (error) {
+        console.log('ERROR fetching genre', error);
         alert('STOP! SOMETHING WENT WRONG!')
     }
 }
