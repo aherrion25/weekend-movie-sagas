@@ -7,6 +7,10 @@ function MovieDetail (){
     const genres = useSelector(store => store.genres);
     const history = useHistory()
 
+    const returnHome = () => {
+        history.push('/')
+    }
+
     return(
         <div>
             <h2>
@@ -23,6 +27,9 @@ function MovieDetail (){
                 Genres:
             </h3>
             {genres.map(genre => `${genre.name}`)}
+            <br />
+            <br />
+            <button onClick={returnHome}>Return Home</button>
         </div>
     )
 }
