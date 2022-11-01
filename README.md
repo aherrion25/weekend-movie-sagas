@@ -1,9 +1,12 @@
-# Project Name
-
-[Project Instructions](./INSTRUCTIONS.md), this line may be removed once you have updated the README.md
+# Movie-Sagas
 
 ## Description
 
-Your project description goes here. What problem did you solve? How did you solve it?
+This is an App where the user can add movies and view the details of the movie
 
-Additional README details can be found [here](https://github.com/PrimeAcademy/readme-template/blob/master/README.md).
+## Install Dependencies
+
+1. `npm install`
+2. `npm run server`
+3. `npm run client`
+
