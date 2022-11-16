@@ -1,35 +1,30 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
-
-function MovieDetail (){
-    const movie = useSelector(store => store.selectMovie);
+function MovieDetail() {
+    const movie = useSelector(store => store.selectedMovie);
     const genres = useSelector(store => store.genres);
-    const history = useHistory()
+    const { movieId } = useParams();
+    const dispatch = useDispatch();
 
-    const returnHome = () => {
-        history.push('/')
-    }
+    useEffect(() => {
+        dispatch({ type: 'FETCH_MOVIE_DETAILS', payload: movieId });
+    }, [movieId]);
 
-    return(
+    return (
         <div>
-            <h2>
-                {movie.title}
-            </h2>
-            <img src={movie.poster} />
-            <h3>
-                Movie Details
-            </h3>
-            <p>
-                {movie.description}
-            </p>
-            <h3>
-                Genres:
-            </h3>
-            {genres.map(genre => `${genre.name}`)}
-            <br />
-            <br />
-            <button onClick={returnHome}>Return Home</button>
+            <h1>{movieId}</h1>
+            <h3>{movie.title}</h3>
+            <img src={movie.poster} alt={movie.title} />
+            <Link to={`/edit/${movie.id}`}>Edit</Link>
+            <p>{movie.description}</p>
+            <ul>
+                {
+                    genres.map(genreToDisplay => <li>{genreToDisplay.name}</li>)
+                }
+            </ul>
         </div>
     )
 }

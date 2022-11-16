@@ -13,9 +13,45 @@ import axios from 'axios';
 
 // Create the rootSaga generator function
 function* rootSaga() {
+    yield takeEvery('EDIT_MOVIE', editMovie);
+    yield takeEvery('ADD_MOVIE', addMovie);
     yield takeEvery('FETCH_MOVIES', fetchAllMovies);
-    yield takeEvery('FETCH_DETAILS', fetchDetails);
-    yield takeEvery('FETCH_GENRES', fetchGenre);
+    yield takeEvery('FETCH_MOVIE_DETAILS', fetchMovieDetails);
+}
+
+function* editMovie(action) {
+    try {
+        yield axios.put(`/api/movie/${action.payload.id}`, action.payload);
+        if (action.history) {
+            action.history.goBack();
+        }
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+function* addMovie(action) {
+    try {
+        yield axios.post(`/api/movie`, action.payload);
+        if (action.history) {
+            // Redirect back to the movie list
+            action.history.push('/');
+        }
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+function* fetchMovieDetails(action) {
+    try {
+        const movie = yield axios.get(`/api/movie/${action.payload}`);
+        yield put({ type: 'SET_MOVIE_DETAILS', payload: movie.data });
+        // Fetch genres
+        const genres = yield axios.get(`/api/genre/${action.payload}`);
+        yield put({ type: 'SET_GENRES', payload: genres.data});
+    } catch (e) {
+        console.log(e);
+    }
 }
 
 function* fetchAllMovies() {
@@ -31,40 +67,8 @@ function* fetchAllMovies() {
         
 }
 
-function* fetchDetails() {
-    // get details from DB
-    try {
-        const details = yield axios.get('/api/genre');
-        yield put({ type: 'SET_GENRES', payload: details.data});
-    } catch (error) {
-        console.log('ERROR fetching details', error);
-        alert('STOP! SOMETHING WENT WRONG!')
-    }
-}
-
-function* fetchGenre(action) {
-    // get genres from DB
-    try{
-        const genres = yield axios.get(`/api/genre/${action.payload}`)
-        yield put({ type: 'SET_GENRES', payload: genres.data})
-    } catch (error) {
-        console.log('ERROR fetching genre', error);
-        alert('STOP! SOMETHING WENT WRONG!')
-    }
-}
-
 // Create sagaMiddleware
 const sagaMiddleware = createSagaMiddleware();
-
-// stores movie that is chosen
-const selectMovie = (state = {}, action) => {
-    switch (action.type) {
-        case 'SELECT_MOVIE':
-            return action.payload;
-        default:
-            return state;
-    }
-}
 
 // Used to store movies returned from the server
 const movies = (state = [], action) => {
@@ -86,12 +90,22 @@ const genres = (state = [], action) => {
     }
 }
 
+// selectedMovie = movieToDisplay;
+const selectedMovie = (state = {}, action) => {
+    switch (action.type) {
+        case 'SET_MOVIE_DETAILS':
+            return action.payload;
+        default:
+            return state;
+    }
+}
+
 // Create one store that all components can use
 const storeInstance = createStore(
     combineReducers({
         movies,
         genres,
-        selectMovie
+        selectedMovie,
     }),
     // Add sagaMiddleware to our store
     applyMiddleware(sagaMiddleware, logger),
