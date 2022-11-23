@@ -32,8 +32,8 @@ A list of available movies with the ability to view details of the selected movi
 
 ### Prerequisites
 
-Node.js
-nodemon
+- Node.js
+- nodemon
 
 ### Installation
 
