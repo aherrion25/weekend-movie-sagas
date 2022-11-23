@@ -1,5 +1,8 @@
 .movies {
     display : flex;
     flex-wrap: wrap;
-    
+}
+
+.center{
+    font-family: 'Permanent Marker', cursive;
 }

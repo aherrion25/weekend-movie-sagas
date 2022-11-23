@@ -53,18 +53,10 @@ function MovieDetail() {
         <div>
             {/* <h1>{getTitle()}</h1> */}
             {id ? <h1>Edit Movie</h1> : <h1>Add Movie</h1> }
-            <h3>{id}</h3>
             <form onSubmit={submitForm}>
                 <p>Title: <input value={title} onChange={(e) => setTitle(e.target.value)} /></p>
                 <p>Description: <input value={description} onChange={(e) => setDescription(e.target.value)}  /></p>
                 <p>Poster: <input value={poster} onChange={(e) => setPoster(e.target.value)}  /></p>
-                {/* <select
-                    value={selectedOption}
-                    onChange={e => setSelectedOption(e.target.value)}>
-                    {genres.map(o => (
-                        <option key={o.id} value={o.id}>{o.name}</option>
-                    ))}
-                </select> */}
                 <input type="submit" />
             </form>
         </div>

@@ -3,13 +3,14 @@ import './App.css';
 import MovieList from '../MovieList/MovieList';
 import MovieDetail from '../MovieDetail/MovieDetail';
 import AddMovie from '../AddMovie/AddMovie';
+import Header from './Header/Header';
 
 function App() {
   return (
     <div className="App">
       {/* History is not available here!! */}
       <Router> 
-        <h1>The Movies Saga!</h1>      
+        <Header />    
         <Route path="/" exact>
           <MovieList />
         </Route>
